@@ -26,9 +26,10 @@ export default function Home() {
       className="fade-up py-28 px-4 sm:px-6 lg:px-8"
       style={{
         backgroundImage:
-          'linear-gradient(180deg, rgba(15, 23, 42, 0.18), rgba(15, 23, 42, 0.58)), url("https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1800&q=80")',
+          'linear-gradient(180deg, rgba(15, 23, 42, 0.18), rgba(15, 23, 42, 0.58)), url("/Images/herobg.png")',
         backgroundPosition: "center",
         backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <div className="max-w-6xl mx-auto">
