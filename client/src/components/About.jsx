@@ -16,12 +16,17 @@ export default function About() {
           <div>
             <span className="section-kicker">About us</span>
             <h2 className="section-heading mt-6 text-balance">
-              A spiritual and fitness practice shaped with elegance.
+              Built On Real Transformation And Shared Purpose.
             </h2>
             <p className="section-copy mt-6 max-w-2xl">
-              Connekt Studio believes meaningful transformation begins with consistent intention.
-              Our classes are designed to help members feel stronger physically, calmer mentally, and
-              more grounded in everyday life.
+              Two sisters, one shared purpose.
+
+Harshita’s journey began in Rishikesh, where yoga helped her heal from grief and rediscover inner peace. What started as a personal struggle slowly turned into a path of self-discovery and balance.
+
+Inspired by her transformation, her younger sister Hina chose to leave the corporate world and follow a more meaningful path. What began as a fitness goal soon grew into a deeper commitment to overall well-being.
+
+Today, together, they combine yoga, fitness, and nutrition to help others build strength, find balance, and feel better—because they have lived this journey themselves.
+
             </p>
 
             <div className="mt-10 grid gap-4">
@@ -31,9 +36,9 @@ export default function About() {
                     <Heart size={20} />
                   </div>
                   <div>
-                    <h3 className="text-3xl font-semibold text-gray-900">Body, mind, and spirit</h3>
+                    <h3 className="text-3xl font-semibold text-gray-900">From healing to purpose</h3>
                     <p className="mt-2 text-sm leading-7 text-gray-600 sm:text-base">
-                      We combine yoga, mindful movement, and breath practices into one holistic discipline.
+                     What started as a personal healing journey became a mission to help others transform.
                     </p>
                   </div>
                 </div>
@@ -45,9 +50,9 @@ export default function About() {
                     <Leaf size={20} />
                   </div>
                   <div>
-                    <h3 className="text-3xl font-semibold text-gray-900">Authentic and supportive</h3>
+                    <h3 className="text-3xl font-semibold text-gray-900">Guided by real experience</h3>
                     <p className="mt-2 text-sm leading-7 text-gray-600 sm:text-base">
-                      Each class is designed to feel steady, welcoming, and rooted in long-term progress.
+                      Every step we teach comes from our own journey of growth, balance, and discipline.
                     </p>
                   </div>
                 </div>
@@ -59,9 +64,9 @@ export default function About() {
                     <Sparkles size={20} />
                   </div>
                   <div>
-                    <h3 className="text-3xl font-semibold text-gray-900">Modern clarity</h3>
+                    <h3 className="text-3xl font-semibold text-gray-900">Stronger together</h3>
                     <p className="mt-2 text-sm leading-7 text-gray-600 sm:text-base">
-                      Traditional wisdom is delivered through a clean online experience that fits daily life.
+                      Two sisters combining yoga, fitness, and lifestyle practices to create real impact.
                     </p>
                   </div>
                 </div>
