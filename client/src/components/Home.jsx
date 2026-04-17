@@ -27,7 +27,7 @@ export default function Home() {
       style={{
         backgroundImage:
           'linear-gradient(180deg, rgba(15, 23, 42, 0.18), rgba(15, 23, 42, 0.58)), url("/Images/herobg.png")',
-        backgroundPosition: "center",
+        backgroundPosition: "center center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
