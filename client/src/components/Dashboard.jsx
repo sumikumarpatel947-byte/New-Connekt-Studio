@@ -29,6 +29,7 @@ const createEmptyClassForm = () => ({
   time: "",
   schedule: "",
   features: [""],
+  mode: "Online",
 });
 
 const fadeUp = {
@@ -142,6 +143,7 @@ export default function Dashboard() {
       time: classItem.time || "",
       schedule: classItem.schedule || "",
       features: classItem.features?.length ? classItem.features : [""],
+      mode: classItem.mode || "Online",
     });
     setShowClassForm(true);
   };
@@ -458,6 +460,21 @@ export default function Dashboard() {
                                 />
                               </div>
                             ))}
+                          </div>
+
+                          <div className="mt-5">
+                            <label htmlFor="mode" className="mb-2 block text-sm font-semibold text-gray-700">Mode</label>
+                            <select
+                              id="mode"
+                              value={classForm.mode}
+                              onChange={(event) => setClassForm((current) => ({ ...current, mode: event.target.value }))}
+                              required
+                              className="field-input"
+                            >
+                              <option value="Online">Online</option>
+                              <option value="Offline">Offline</option>
+                              <option value="Hybrid">Hybrid</option>
+                            </select>
                           </div>
 
                           <div className="mt-5">

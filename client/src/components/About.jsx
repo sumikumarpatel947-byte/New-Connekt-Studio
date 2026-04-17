@@ -7,9 +7,10 @@ export default function About() {
         <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
           <div className="surface-card-soft p-4 sm:p-5">
             <img
-              src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=1200&q=80"
+              src="/Images/aboutus.jpeg"
               alt="Yoga meditation"
-              className="h-[420px] w-full rounded-[1.25rem] object-cover"
+              className="h-[420px] w-full rounded-[1.25rem] object-cover object-center"
+              style={{ objectPosition: '60% 70%' }}
             />
           </div>
 
@@ -19,7 +20,7 @@ export default function About() {
               Built On Real Transformation And Shared Purpose.
             </h2>
             <p className="section-copy mt-6 max-w-2xl">
-              Two sisters, one shared purpose.
+            Two sisters, one shared purpose. 
 
 Rishikesh became the turning point in Harshita’s life—what began as a journey to heal from grief and depression transformed into a path of deep self-discovery through yoga. She found not just balance, but a sense of inner bliss she chose to live by every day.
 
