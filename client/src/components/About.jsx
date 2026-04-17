@@ -21,11 +21,12 @@ export default function About() {
             <p className="section-copy mt-6 max-w-2xl">
               Two sisters, one shared purpose.
 
-Harshita’s journey began in Rishikesh, where yoga helped her heal from grief and rediscover inner peace. What started as a personal struggle slowly turned into a path of self-discovery and balance.
+Rishikesh became the turning point in Harshita’s life—what began as a journey to heal from grief and depression transformed into a path of deep self-discovery through yoga. She found not just balance, but a sense of inner bliss she chose to live by every day.
 
-Inspired by her transformation, her younger sister Hina chose to leave the corporate world and follow a more meaningful path. What began as a fitness goal soon grew into a deeper commitment to overall well-being.
+Witnessing this powerful shift, her younger sister 
+Hina made a bold choice—to step away from the corporate world and follow a path that felt more aligned. What started as a personal fitness goal soon evolved into a deeper commitment to holistic health.
 
-Today, together, they combine yoga, fitness, and nutrition to help others build strength, find balance, and feel better—because they have lived this journey themselves.
+Today, together, they blend yoga, fitness, and nutrition to guide others toward strength, balance, and self-healing—because they’ve lived the transformation themselves.
 
             </p>
 
