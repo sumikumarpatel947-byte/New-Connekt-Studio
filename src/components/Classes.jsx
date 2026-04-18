@@ -3,7 +3,6 @@ import {
   Calendar,
   CheckCircle2,
   Clock3,
-  Globe,
   Info,
   PlusCircle,
   Star,
@@ -119,9 +118,6 @@ export default function Classes() {
                       <span className="inline-flex rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-teal-700">
                         {item.level}
                       </span>
-                      <span className="ml-2 inline-flex rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-indigo-700">
-                        {item.mode || "Online"}
-                      </span>
                       <h3 className="mt-4 text-3xl font-semibold text-gray-900">{item.title}</h3>
                     </div>
                     <div className="rounded-full bg-amber-50 px-3 py-2 text-right text-xs font-semibold text-amber-700">
@@ -146,10 +142,6 @@ export default function Classes() {
                     <p className="inline-flex items-center gap-2">
                       <Calendar size={15} className="text-teal-700" />
                       {item.schedule}
-                    </p>
-                    <p className="inline-flex items-center gap-2">
-                      <Globe size={15} className="text-teal-700" />
-                      {item.mode || "Online"}
                     </p>
                   </div>
 
@@ -210,9 +202,6 @@ export default function Classes() {
                 <div className="flex items-center justify-between gap-4">
                   <span className="inline-flex rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-teal-700">
                     {selectedClass.level}
-                  </span>
-                  <span className="inline-flex rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-indigo-700">
-                    {selectedClass.mode || "Online"}
                   </span>
                   <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
                     <Star size={14} className="fill-amber-500 text-amber-500" />
