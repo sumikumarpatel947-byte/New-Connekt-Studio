@@ -175,11 +175,11 @@ export default function Classes() {
 
       {selectedClass && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-4 py-8"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-4 py-4"
           onClick={() => setSelectedClass(null)}
         >
           <div
-            className="surface-card-soft relative w-full max-w-3xl overflow-hidden"
+            className="surface-card-soft relative w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col"
             onClick={(event) => event.stopPropagation()}
           >
             <button
@@ -191,73 +191,77 @@ export default function Classes() {
               <X size={18} />
             </button>
 
-            <div className="grid gap-0 lg:grid-cols-[0.95fr_1.05fr]">
-              <img
-                src={selectedClass.image}
-                alt={selectedClass.title}
-                className="h-72 w-full object-cover lg:h-full"
-              />
-
-              <div className="px-6 py-7 sm:px-8">
-                <div className="flex items-center justify-between gap-4">
-                  <span className="inline-flex rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-teal-700">
-                    {selectedClass.level}
-                  </span>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
-                    <Star size={14} className="fill-amber-500 text-amber-500" />
-                    {selectedClass.rating}
-                  </span>
+            <div className="flex-1 overflow-y-auto">
+              <div className="grid gap-0 lg:grid-cols-[1fr_1fr]">
+                <div className="relative h-64 lg:h-full">
+                  <img
+                    src={selectedClass.image}
+                    alt={selectedClass.title}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
 
-                <h3 className="mt-4 text-4xl font-semibold text-gray-900">{selectedClass.title}</h3>
-                <p className="mt-4 text-sm leading-8 text-gray-600 sm:text-base">{selectedClass.description}</p>
-
-                <div className="mt-6 grid gap-3 rounded-[1.25rem] bg-slate-50 px-4 py-4 text-sm text-gray-600">
-                  <p className="inline-flex items-center gap-2">
-                    <UserRound size={16} className="text-teal-700" />
-                    <span><span className="font-semibold text-gray-900">Instructor:</span> {selectedClass.instructor}</span>
-                  </p>
-                  <p className="inline-flex items-center gap-2">
-                    <Clock3 size={16} className="text-teal-700" />
-                    <span><span className="font-semibold text-gray-900">Time:</span> {selectedClass.time}</span>
-                  </p>
-                  <p className="inline-flex items-center gap-2">
-                    <Calendar size={16} className="text-teal-700" />
-                    <span><span className="font-semibold text-gray-900">Schedule:</span> {selectedClass.schedule}</span>
-                  </p>
-                  <p className="inline-flex items-center gap-2">
-                    <Info size={16} className="text-teal-700" />
-                    <span><span className="font-semibold text-gray-900">Price:</span> {selectedClass.price} · {selectedClass.duration}</span>
-                  </p>
-                </div>
-
-                <div className="mt-6">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">What&apos;s included</p>
-                  <div className="mt-3 grid gap-2">
-                    {selectedClass.features?.map((feature, index) => (
-                      <p key={`${feature}-${index}`} className="inline-flex items-center gap-2 text-sm text-gray-700">
-                        <CheckCircle2 size={16} className="text-teal-700" />
-                        {feature}
-                      </p>
-                    ))}
+                <div className="px-6 py-6 sm:px-8 sm:py-8">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="inline-flex rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-teal-700">
+                      {selectedClass.level}
+                    </span>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                      <Star size={14} className="fill-amber-500 text-amber-500" />
+                      {selectedClass.rating}
+                    </span>
                   </div>
-                </div>
 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <button
-                    onClick={() => enrollInClass(selectedClass)}
-                    className="primary-btn flex-1 px-5 py-3 text-sm"
-                  >
-                    <PlusCircle size={16} />
-                    Enroll on WhatsApp
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedClass(null)}
-                    className="flex flex-1 items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:border-slate-300"
-                  >
-                    Close
-                  </button>
+                  <h3 className="mt-4 text-2xl sm:text-4xl font-semibold text-gray-900">{selectedClass.title}</h3>
+                  <p className="mt-4 text-sm leading-7 text-gray-600 sm:text-base">{selectedClass.description}</p>
+
+                  <div className="mt-6 grid gap-3 rounded-[1.25rem] bg-slate-50 px-4 py-4 text-sm text-gray-600">
+                    <p className="inline-flex items-center gap-2">
+                      <UserRound size={16} className="text-teal-700" />
+                      <span><span className="font-semibold text-gray-900">Instructor:</span> {selectedClass.instructor}</span>
+                    </p>
+                    <p className="inline-flex items-center gap-2">
+                      <Clock3 size={16} className="text-teal-700" />
+                      <span><span className="font-semibold text-gray-900">Time:</span> {selectedClass.time}</span>
+                    </p>
+                    <p className="inline-flex items-center gap-2">
+                      <Calendar size={16} className="text-teal-700" />
+                      <span><span className="font-semibold text-gray-900">Schedule:</span> {selectedClass.schedule}</span>
+                    </p>
+                    <p className="inline-flex items-center gap-2">
+                      <Info size={16} className="text-teal-700" />
+                      <span><span className="font-semibold text-gray-900">Price:</span> {selectedClass.price} · {selectedClass.duration}</span>
+                    </p>
+                  </div>
+
+                  <div className="mt-6">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">What&apos;s included</p>
+                    <div className="mt-3 grid gap-2">
+                      {selectedClass.features?.map((feature, index) => (
+                        <p key={`${feature}-${index}`} className="inline-flex items-center gap-2 text-sm text-gray-700">
+                          <CheckCircle2 size={16} className="text-teal-700" />
+                          {feature}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                    <button
+                      onClick={() => enrollInClass(selectedClass)}
+                      className="primary-btn flex-1 px-5 py-3 text-sm"
+                    >
+                      <PlusCircle size={16} />
+                      Enroll on WhatsApp
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedClass(null)}
+                      className="flex flex-1 items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:border-slate-300"
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
