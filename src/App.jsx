@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { AuthProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -65,6 +65,7 @@ function App() {
             }
           />
         </Routes>
+        <SpeedInsights />
       </AuthProvider>
     </Router>
   );
