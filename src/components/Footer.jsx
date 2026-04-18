@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
-              <img src="/Images/logo.png" alt="Connekt Studio logo" className="h-14 w-auto object-contain" />
+              <img src="/Images/logo.png" alt="Connekt Studio logo" className="h-12 w-auto object-contain sm:h-14 md:h-16" />
               <div>
                 <p className="text-3xl font-semibold text-white">Connekt Studio</p>
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">Yoga and wellness</p>
@@ -72,7 +72,7 @@ export default function Footer() {
             <div className="mt-4 space-y-4 text-sm leading-7">
               <p className="flex gap-3">
                 <MapPin size={18} className="mt-1 shrink-0 text-teal-400" />
-                <span>Ghanshyam niwas, Nai Basti, Gandhi Ganj, Katni, Madhya Pradesh 483501</span>
+                <span>Near pustak bazaar, Indradhanush jewellers, above mehta stores, Neemuch, ( M.P )</span>
               </p>
               <p>connektbmsstudio@gmail.com</p>
               <p>+91 9039570885</p>

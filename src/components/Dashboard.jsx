@@ -538,7 +538,7 @@ export default function Dashboard() {
                         className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.05)]"
                       >
                         <div className="relative">
-                          <img src={classItem.image} alt={classItem.title} className="h-52 w-full object-cover" />
+                          <img src={classItem.image} alt={classItem.title} className="h-52 w-full object-cover md:h-56 lg:h-52" />
                           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
                             <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-teal-700 shadow-sm">
                               {classItem.level}

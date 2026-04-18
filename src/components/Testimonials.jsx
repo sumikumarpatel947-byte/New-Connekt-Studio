@@ -1,30 +1,43 @@
-import { Star } from "lucide-react";
+import { Star, X } from "lucide-react";
+import { useState } from "react";
 
 const testimonials = [
   {
-    name: "Priya Sharma",
+    name: "Unnati Bajaj",
     image: "https://images.unsplash.com/photo-1494790108755-2616b332c1ca?auto=format&fit=crop&w=200&q=80",
     rating: 5,
-    text: "I was unsure about online yoga at first, but the structure, warmth, and clarity of the classes made it easy to stay consistent.",
-    info: "Flexibility and stress relief - 6 months",
+    shortText: "I'm extremely grateful to Connekt Studio for being such an important part of my pregnancy journey. The yoga sessions and breathing techniques truly made a huge difference during my labor.",
+    fullText: "I'm extremely grateful to Connekt Studio for being such an important part of my pregnancy journey 🤍\n\nAll the yoga sessions and especially the breathing techniques taught during the classes truly made a huge difference during my labor. I could actually feel how every single exercise helped me stay calm, focused, and strong through the pain.\n\nThanks to their guidance and support, I was able to have a normal delivery, and I genuinely believe their training played a big role in it.\n\nHighly recommend Connekt Studio to all moms-to-be—such a caring and knowledgeable team",
+    info: "Pregnancy journey - 9 months",
   },
   {
-    name: "Rahul Verma",
+    name: "Navatika Golwalker",
     image: "https://images.unsplash.com/photo-1564490215983-296e5f56b623?auto=format&fit=crop&w=200&q=80",
     rating: 5,
-    text: "The sessions are guided in a way that feels disciplined without being overwhelming. I have stayed far more regular here.",
-    info: "Strength and balance - 4 months",
+    shortText: "I've been associated with Connekt Studio for over two years. Their guidance has been invaluable throughout my weight loss journey, pre-conception phase, and entire pregnancy.",
+    fullText: "I have been associated with Connekt Studio for over two years now, and their guidance has been invaluable throughout my weight loss journey, pre-conception phase, and entire pregnancy.\n\nThe prenatal yoga sessions truly made a difference,they helped me stay active, prepared my body for the changes ahead, and gave me the strength and confidence I needed. I was able to work until the very last day of my pregnancy and manage my daily household activities with ease. I experienced minimal discomfort, my BP remained stable, and overall, I felt healthy and energized.\n\nA special thanks to Harshita for the pre natal yoga sessions her guidance ensured my baby was in the correct position, and the breathwork techniques she taught were incredibly helpful during early and active labour. I was able to manage most of my labour naturally, without medication, and I truly believe that strength came from how well my body was trained throughout.\n\nI am equally grateful to Hina for the thoughtfully curated diet plans.They ensured that both my baby and I gained the right amount of weight while keeping my nutrition balanced, wholesome, and practical to follow.\n\nThank you, Connekt Studio, for your constant support, motivation, and care throughout this beautiful journey. From helping me build a healthier lifestyle to preparing me for one of the most important phases of my life, your guidance has truly made a lasting impact. I genuinely enjoyed my pregnancy journey, and I couldn't have asked for better mentors by my side.",
+    info: "2+ years association",
   },
   {
-    name: "Anita Patel",
+    name: "Mehar Nainani",
     image: "https://images.unsplash.com/photo-1616002851413-ebcc9611139d?auto=format&fit=crop&w=200&q=80",
     rating: 5,
-    text: "Every class feels considered. The instructors make progress feel realistic and personal, not rushed or generic.",
-    info: "Guided progression - 5 months",
+    shortText: "My pregnancy journey became one of the most beautiful and memorable phases of my life, all thanks to my amazing yoga trainers Harshita Di and Hina Di.",
+    fullText: "My pregnancy journey became one of the most beautiful and memorable phases of my life, all thanks to my amazing yoga trainers cum dieticians Harshita Di and Hina Di. 🤍\n\nFrom day one, they stood by me through every high and low, always guiding me with so much patience, care, and positivity. Whether it was breathing techniques, safe stretches, exercises, or even understanding the little changes I was experiencing— they were always there to support and reassure me.\n\nTheir knowledge, dedication, and constant encouragement made me feel stronger, calmer, and more confident throughout this journey. I truly felt I was in the safest hands.\n\nI wholeheartedly recommend them to every expecting mother or anyone who is looking gorward to make changes in their lifestyle. If you're looking for the best guidance during pregnancy and lifestyle changes they are truly the best ones you will ever find. 🌸\n\nForever grateful to Connekt Studio (to Harshita di and Hina di) for making this journey so special. 💫",
+    info: "Pregnancy journey",
+  },
+  {
+    name: "Priyanka Navgire",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80",
+    rating: 5,
+    shortText: "I had an amazing experience taking personal classes with Harshita throughout my pregnancy. She was incredibly flexible with timings and every session was personalized.",
+    fullText: "I had an amazing experience taking personal classes with Harshita throughout my pregnancy. She was incredibly flexible with timings, which was so helpful since we were in different time zones. We always made the schedule work, and her patience and understanding meant a lot.\n\nWhat truly set her apart was how personalized every session was. Each class was adapted to how my body felt that day. On days when I was extremely tired, we focused on gentle meditations that calmed my mind and soothed my baby in the womb. The stretches and exercises were relaxing yet effective — they prepared my body for labor without ever exhausting me.\n\nI genuinely looked forward to my yoga sessions every day. They helped release tension, eased my back pain, and became a peaceful space where I could slow down and reconnect with myself.\n\nOne of the most special parts of the journey was the mantra chanting at the end of each session. The vibrations helped me connect more deeply with my baby, and I often felt him become more active during the chanting.\n\nOn November 10, I delivered a healthy baby through a smooth vaginal birth — and I truly believe the breathing techniques, stretches, and mindfulness practices from our sessions played a huge role in helping me stay calm and prepared.\n\nMy journey with Harshita from Connekt Studio  was supportive, soothing, and transformative. I'm deeply grateful for her guidance and would highly recommend her to any expecting mother. 🌸🤰✨👶",
+    info: "Personal classes - 9 months",
   },
 ];
 
 export default function Testimonials() {
+  const [selectedTestimonial, setSelectedTestimonial] = useState(null);
   return (
     <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -36,7 +49,7 @@ export default function Testimonials() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
             <article key={testimonial.name} className="surface-card px-6 py-8">
               <div className="flex items-center gap-4">
@@ -57,11 +70,63 @@ export default function Testimonials() {
                 ))}
               </div>
 
-              <p className="mt-5 text-sm leading-8 text-gray-600 sm:text-base">{testimonial.text}</p>
+              <p className="mt-5 text-sm leading-8 text-gray-600 sm:text-base">{testimonial.shortText}</p>
+
+              <button
+                onClick={() => setSelectedTestimonial(testimonial)}
+                className="mt-4 text-sm font-semibold text-teal-700 hover:text-teal-800 transition"
+              >
+                View full review →
+              </button>
             </article>
           ))}
         </div>
       </div>
+
+      {selectedTestimonial && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-4 py-4"
+          onClick={() => setSelectedTestimonial(null)}
+        >
+          <div
+            className="surface-card-soft relative w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setSelectedTestimonial(null)}
+              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow-sm transition hover:bg-white hover:text-gray-900"
+              aria-label="Close"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="flex-1 overflow-y-auto px-6 py-8 sm:px-8 sm:py-10">
+              <div className="flex items-center gap-4">
+                <img src={selectedTestimonial.image} alt={selectedTestimonial.name} className="h-20 w-20 rounded-full object-cover" />
+                <div>
+                  <h3 className="text-3xl font-semibold text-gray-900">{selectedTestimonial.name}</h3>
+                  <p className="text-sm text-gray-500">{selectedTestimonial.info}</p>
+                </div>
+              </div>
+
+              <div className="mt-5 flex gap-1">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={index}
+                    size={16}
+                    className={index < selectedTestimonial.rating ? "fill-amber-400 text-amber-400" : "text-slate-300"}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-6 text-sm leading-8 text-gray-600 sm:text-base whitespace-pre-line">
+                {selectedTestimonial.fullText}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

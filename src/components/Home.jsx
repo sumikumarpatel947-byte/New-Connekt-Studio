@@ -6,12 +6,6 @@ const highlights = [
   "Beginner-friendly rhythm from home",
 ];
 
-const stats = [
-  { label: "Active members", value: "10K+" },
-  { label: "Expert instructors", value: "500+" },
-  { label: "Live classes", value: "50+" },
-];
-
 export default function Home() {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -64,15 +58,6 @@ export default function Home() {
               <span key={item}>{item}</span>
             ))}
           </div>
-        </div>
-
-        <div className="mx-auto mt-16 grid max-w-5xl gap-4 md:grid-cols-3">
-          {stats.map((item) => (
-            <div key={item.label} className="surface-card-soft bg-white/92 px-6 py-6 text-center">
-              <p className="text-4xl font-semibold text-gray-900">{item.value}</p>
-              <p className="mt-2 text-sm font-medium uppercase tracking-[0.18em] text-gray-500">{item.label}</p>
-            </div>
-          ))}
         </div>
       </div>
     </section>

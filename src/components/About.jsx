@@ -9,7 +9,7 @@ export default function About() {
             <img
               src="/Images/aboutus.jpeg"
               alt="Yoga meditation"
-              className="h-[420px] w-full rounded-[1.25rem] object-cover object-center"
+              className="h-[350px] w-full rounded-[1.25rem] object-cover object-center sm:h-[380px] md:h-[420px] lg:h-[450px]"
               style={{ objectPosition: '60% 70%' }}
             />
           </div>

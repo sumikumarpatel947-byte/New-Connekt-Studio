@@ -70,7 +70,7 @@ export default function Contact() {
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Address</p>
                   <p className="mt-2 text-sm leading-7 text-gray-700 sm:text-base">
-                    Ghanshyam niwas, Nai Basti, Gandhi Ganj, Katni, Madhya Pradesh 483501
+                    Near pustak bazaar, Indradhanush jewellers, above mehta stores, Neemuch, ( M.P )
                   </p>
                 </div>
               </div>
@@ -113,7 +113,7 @@ export default function Contact() {
                   <MessageCircle size={18} />
                 </a>
                 <a
-                  href="https://maps.google.com/?q=Ghanshyam+niwas,+Nai+Basti,+Gandhi+Ganj,+Katni,+Madhya+Pradesh+483501"
+                  href="https://maps.google.com/?q=Near+pustak+bazaar,+Indradhanush+jewellers,+above+mehta+stores,+Neemuch,+MP"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center justify-between rounded-2xl bg-slate-100 px-4 py-4 text-sm font-semibold text-gray-700 transition hover:bg-slate-200"
