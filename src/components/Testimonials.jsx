@@ -4,7 +4,7 @@ import { useState } from "react";
 const testimonials = [
   {
     name: "Unnati Bajaj",
-    image: "https://images.unsplash.com/photo-1494790108755-2616b332c1ca?auto=format&fit=crop&w=200&q=80",
+    image: "https://res.cloudinary.com/dlydkqrfx/image/upload/v1776585979/a7dtntlu3cwcb4nh8cwc.jpg",
     rating: 5,
     shortText: "I'm extremely grateful to Connekt Studio for being such an important part of my pregnancy journey. The yoga sessions and breathing techniques truly made a huge difference during my labor.",
     fullText: "I'm extremely grateful to Connekt Studio for being such an important part of my pregnancy journey 🤍\n\nAll the yoga sessions and especially the breathing techniques taught during the classes truly made a huge difference during my labor. I could actually feel how every single exercise helped me stay calm, focused, and strong through the pain.\n\nThanks to their guidance and support, I was able to have a normal delivery, and I genuinely believe their training played a big role in it.\n\nHighly recommend Connekt Studio to all moms-to-be—such a caring and knowledgeable team",
@@ -20,8 +20,8 @@ const testimonials = [
   },
   {
     name: "Mehar Nainani",
-    image: "https://images.unsplash.com/photo-1616002851413-ebcc9611139d?auto=format&fit=crop&w=200&q=80",
-    rating: 5,
+    image: "https://res.cloudinary.com/dlydkqrfx/image/upload/v1776586176/hi9lic5xritf8i6a5gyc.jpg",
+    rating: 4,
     shortText: "My pregnancy journey became one of the most beautiful and memorable phases of my life, all thanks to my amazing yoga trainers Harshita Di and Hina Di.",
     fullText: "My pregnancy journey became one of the most beautiful and memorable phases of my life, all thanks to my amazing yoga trainers cum dieticians Harshita Di and Hina Di. 🤍\n\nFrom day one, they stood by me through every high and low, always guiding me with so much patience, care, and positivity. Whether it was breathing techniques, safe stretches, exercises, or even understanding the little changes I was experiencing— they were always there to support and reassure me.\n\nTheir knowledge, dedication, and constant encouragement made me feel stronger, calmer, and more confident throughout this journey. I truly felt I was in the safest hands.\n\nI wholeheartedly recommend them to every expecting mother or anyone who is looking gorward to make changes in their lifestyle. If you're looking for the best guidance during pregnancy and lifestyle changes they are truly the best ones you will ever find. 🌸\n\nForever grateful to Connekt Studio (to Harshita di and Hina di) for making this journey so special. 💫",
     info: "Pregnancy journey",
