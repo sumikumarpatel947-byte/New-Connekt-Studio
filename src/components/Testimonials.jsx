@@ -1,5 +1,5 @@
-import { Star, X } from "lucide-react";
-import { useState } from "react";
+import { Star, X, Plus } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const testimonials = [
   {
@@ -38,6 +38,53 @@ const testimonials = [
 
 export default function Testimonials() {
   const [selectedTestimonial, setSelectedTestimonial] = useState(null);
+  const [showAddReview, setShowAddReview] = useState(false);
+  const [showAllReviews, setShowAllReviews] = useState(false);
+  const [customerReviews, setCustomerReviews] = useState([]);
+  const [reviewForm, setReviewForm] = useState({ name: '', rating: 5, message: '' });
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetchCustomerReviews();
+  }, []);
+
+  const fetchCustomerReviews = async () => {
+    try {
+      const response = await fetch('https://learnserver-backend.onrender.com/api/reviews/admin/all');
+      const data = await response.json();
+      if (data.success) {
+        setCustomerReviews(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+  };
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      const response = await fetch('https://learnserver-backend.onrender.com/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(reviewForm),
+      });
+      const data = await response.json();
+      if (data.success) {
+        alert('Review submitted successfully!');
+        setReviewForm({ name: '', rating: 5, message: '' });
+        setShowAddReview(false);
+        fetchCustomerReviews();
+      } else {
+        alert(data.message || 'Failed to submit review');
+      }
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      alert('Failed to submit review');
+    } finally {
+      setSubmitting(false);
+    }
+  };
   return (
     <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -81,6 +128,92 @@ export default function Testimonials() {
             </article>
           ))}
         </div>
+
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={() => setShowAllReviews(true)}
+            className="inline-flex items-center gap-2 rounded-full border border-teal-600 px-6 py-3 text-sm font-semibold text-teal-700 transition hover:bg-teal-50"
+          >
+            View All Reviews
+            <Plus size={16} />
+          </button>
+        </div>
+
+        {showAddReview && (
+          <div className="mt-12 surface-card-soft px-6 py-8 sm:px-8">
+            <h3 className="text-2xl font-semibold text-gray-900">Add Your Review</h3>
+            <form onSubmit={handleSubmitReview} className="mt-6 space-y-5">
+              <div>
+                <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-700">Your Name</label>
+                <input
+                  id="name"
+                  type="text"
+                  value={reviewForm.name}
+                  onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
+                  required
+                  className="field-input"
+                  placeholder="Enter your name"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="rating" className="mb-2 block text-sm font-medium text-gray-700">Rating</label>
+                <select
+                  id="rating"
+                  value={reviewForm.rating}
+                  onChange={(e) => setReviewForm({ ...reviewForm, rating: parseInt(e.target.value) })}
+                  className="field-input"
+                >
+                  {[5, 4, 3, 2, 1].map((star) => (
+                    <option key={star} value={star}>{star} Star{star > 1 ? 's' : ''}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="message" className="mb-2 block text-sm font-medium text-gray-700">Your Review</label>
+                <textarea
+                  id="message"
+                  rows="4"
+                  value={reviewForm.message}
+                  onChange={(e) => setReviewForm({ ...reviewForm, message: e.target.value })}
+                  required
+                  className="field-input resize-none"
+                  placeholder="Share your experience with Connekt Studio"
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="primary-btn flex-1 px-6 py-3 text-sm"
+                >
+                  {submitting ? 'Submitting...' : 'Submit Review'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowAddReview(false)}
+                  className="flex flex-1 items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition hover:border-slate-300"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {!showAddReview && (
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={() => setShowAddReview(true)}
+              className="inline-flex items-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-teal-700"
+            >
+              <Plus size={16} />
+              Add Your Review
+            </button>
+          </div>
+        )}
       </div>
 
       {selectedTestimonial && (
@@ -122,6 +255,67 @@ export default function Testimonials() {
 
               <div className="mt-6 text-sm leading-8 text-gray-600 sm:text-base whitespace-pre-line">
                 {selectedTestimonial.fullText}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showAllReviews && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-4 py-4"
+          onClick={() => setShowAllReviews(false)}
+        >
+          <div
+            className="surface-card-soft relative w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setShowAllReviews(false)}
+              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow-sm transition hover:bg-white hover:text-gray-900"
+              aria-label="Close"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="flex-1 overflow-y-auto px-6 py-8 sm:px-8 sm:py-10">
+              <h3 className="text-3xl font-semibold text-gray-900">All Customer Reviews</h3>
+              <p className="mt-2 text-sm text-gray-500">Reviews submitted by our customers</p>
+
+              <div className="mt-8 space-y-6">
+                {customerReviews.length === 0 ? (
+                  <div className="surface-card px-6 py-8 text-center">
+                    <p className="text-gray-500">No customer reviews yet.</p>
+                  </div>
+                ) : (
+                  customerReviews.map((review) => (
+                    <div key={review._id} className="surface-card px-6 py-6">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h4 className="text-xl font-semibold text-gray-900">{review.name}</h4>
+                          <p className="text-xs text-gray-500">
+                            {new Date(review.createdAt).toLocaleDateString('en-US', { 
+                              year: 'numeric', 
+                              month: 'long', 
+                              day: 'numeric' 
+                            })}
+                          </p>
+                        </div>
+                        <div className="flex gap-1">
+                          {Array.from({ length: 5 }).map((_, index) => (
+                            <Star
+                              key={index}
+                              size={16}
+                              className={index < review.rating ? "fill-amber-400 text-amber-400" : "text-slate-300"}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="mt-4 text-sm leading-7 text-gray-600 whitespace-pre-line">{review.message}</p>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>

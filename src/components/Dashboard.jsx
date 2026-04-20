@@ -3,13 +3,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   BookOpen,
   Calendar,
+  Check,
   Clock3,
   Home,
   LogOut,
+  MessageSquare,
   Pencil,
   Plus,
   ShieldCheck,
   Sparkles,
+  Star,
   Trash2,
   Users,
   X,
@@ -47,6 +50,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("users");
   const [users, setUsers] = useState([]);
   const [classes, setClasses] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showClassForm, setShowClassForm] = useState(false);
   const [editingClass, setEditingClass] = useState(null);
@@ -55,6 +59,7 @@ export default function Dashboard() {
   useEffect(() => {
     fetchUsers();
     fetchClasses();
+    fetchReviews();
   }, []);
 
   const resetClassForm = () => {
@@ -90,6 +95,18 @@ export default function Dashboard() {
       console.error("Error fetching classes:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch("https://learnserver-backend.onrender.com/api/reviews/admin/all");
+      const data = await response.json();
+      if (data.success) {
+        setReviews(data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
     }
   };
 
@@ -186,6 +203,45 @@ export default function Dashboard() {
     setClassForm((current) => ({ ...current, features: features.length ? features : [""] }));
   };
 
+  const handleApproveReview = async (reviewId) => {
+    try {
+      const response = await fetch(`https://learnserver-backend.onrender.com/api/reviews/admin/approve/${reviewId}`, {
+        method: "PATCH",
+      });
+      const data = await response.json();
+      if (data.success) {
+        alert("Review approved successfully!");
+        fetchReviews();
+      } else {
+        alert(data.message || "Failed to approve review");
+      }
+    } catch (error) {
+      console.error("Approve review error:", error);
+      alert("Failed to approve review");
+    }
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    if (!confirm("Are you sure you want to delete this review?")) {
+      return;
+    }
+    try {
+      const response = await fetch(`https://learnserver-backend.onrender.com/api/reviews/admin/${reviewId}`, {
+        method: "DELETE",
+      });
+      const data = await response.json();
+      if (data.success) {
+        alert("Review deleted successfully!");
+        fetchReviews();
+      } else {
+        alert(data.message || "Failed to delete review");
+      }
+    } catch (error) {
+      console.error("Delete review error:", error);
+      alert("Failed to delete review");
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[linear-gradient(180deg,#f7faf9_0%,#eef7f5_100%)] px-4 py-10 sm:px-6 lg:px-8">
@@ -274,7 +330,7 @@ export default function Dashboard() {
                 },
                 {
                   label: "Active tab",
-                  value: activeTab === "users" ? "Users" : "Classes",
+                  value: activeTab === "users" ? "Users" : activeTab === "classes" ? "Classes" : "Reviews",
                   accent: "bg-sky-50 text-sky-700",
                   iconElement: <Sparkles size={20} />,
                 },
@@ -317,6 +373,16 @@ export default function Dashboard() {
                 }`}
               >
                 Classes ({classes.length})
+              </button>
+              <button
+                onClick={() => setActiveTab("reviews")}
+                className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
+                  activeTab === "reviews"
+                    ? "bg-gray-900 text-white shadow-lg"
+                    : "border border-slate-200 bg-white text-gray-700 hover:border-teal-200 hover:text-teal-700"
+                }`}
+              >
+                Reviews ({reviews.length})
               </button>
             </div>
 
@@ -588,6 +654,91 @@ export default function Dashboard() {
                       </MotionArticle>
                     ))}
                   </div>
+                </MotionDiv>
+              )}
+
+              {activeTab === "reviews" && (
+                <MotionDiv
+                  key="reviews-tab"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.25 }}
+                  className="mt-6"
+                >
+                  <div className="flex items-center justify-between gap-4 border-b border-slate-100 px-6 py-5">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-700">Review management</p>
+                      <h2 className="mt-2 text-3xl font-semibold text-gray-900">Approve or delete customer reviews</h2>
+                    </div>
+                  </div>
+
+                  {reviews.length === 0 ? (
+                    <div className="px-6 py-12 text-center">
+                      <MessageSquare size={48} className="mx-auto text-slate-300" />
+                      <p className="mt-4 text-gray-500">No reviews yet. Reviews submitted by customers will appear here for approval.</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4 px-6 py-6">
+                      {reviews.map((review) => (
+                        <div key={review._id} className="surface-card px-6 py-5">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3">
+                                <h3 className="text-xl font-semibold text-gray-900">{review.name}</h3>
+                                {review.isApproved ? (
+                                  <span className="inline-flex items-center gap-1 rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700">
+                                    <Check size={12} />
+                                    Approved
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                                    <Clock3 size={12} />
+                                    Pending
+                                  </span>
+                                )}
+                              </div>
+                              <div className="mt-2 flex gap-1">
+                                {Array.from({ length: 5 }).map((_, index) => (
+                                  <Star
+                                    key={index}
+                                    size={14}
+                                    className={index < review.rating ? "fill-amber-400 text-amber-400" : "text-slate-300"}
+                                  />
+                                ))}
+                              </div>
+                              <p className="mt-3 text-sm leading-7 text-gray-600 whitespace-pre-line">{review.message}</p>
+                              <p className="mt-2 text-xs text-gray-400">
+                                {new Date(review.createdAt).toLocaleDateString('en-US', { 
+                                  year: 'numeric', 
+                                  month: 'long', 
+                                  day: 'numeric' 
+                                })}
+                              </p>
+                            </div>
+                            <div className="flex gap-2">
+                              {!review.isApproved && (
+                                <button
+                                  onClick={() => handleApproveReview(review._id)}
+                                  className="flex items-center gap-2 rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-700"
+                                >
+                                  <Check size={14} />
+                                  Approve
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleDeleteReview(review._id)}
+                                className="flex items-center gap-2 rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
+                              >
+                                <Trash2 size={14} />
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </MotionDiv>
               )}
             </AnimatePresence>
