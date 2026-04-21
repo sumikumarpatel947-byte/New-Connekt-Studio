@@ -1,6 +1,6 @@
 import emailjs from "emailjs-com";
-import { useState } from "react";
-import { Mail, MapPin, MessageCircle, Phone, UserRound } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Check, Mail, MapPin, MessageCircle, Phone, UserRound } from "lucide-react";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -9,32 +9,35 @@ export default function Contact() {
     phone: "",
     message: "",
   });
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleChange = (event) => {
     setForm((current) => ({ ...current, [event.target.id]: event.target.value }));
   };
 
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  emailjs.send(
-    "service_c98c59e",     // EmailJS se milega
-    "template_3udy977",    // EmailJS template ID
-    {
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
-      message: form.message,
-    },
-    "EyQuVdAZF-b30Rl8b"      // EmailJS public key
-  )
-  .then(() => {
-    alert("Message sent successfully!");
-  })
-  .catch((error) => {
-    console.error(error);
-    alert("Failed to send message");
-  });
+    emailjs.send(
+      "service_c98c59e",     
+      "template_3udy977",    
+      {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        message: form.message,
+      },
+      "EyQuVdAZF-b30Rl8b"      
+    )
+    .then(() => {
+      setShowSuccess(true);
+      setForm({ name: "", email: "", phone: "", message: "" });
+      setTimeout(() => setShowSuccess(false), 3000);
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Failed to send message");
+    });
 };
 
   return (
@@ -170,6 +173,17 @@ export default function Contact() {
           </form>
         </div>
       </div>
+
+      {showSuccess && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="flex items-center gap-3 rounded-full bg-teal-600 px-6 py-3 shadow-2xl">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
+              <Check size={18} className="text-white" />
+            </div>
+            <span className="text-sm font-semibold text-white">Message sent successfully!</span>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
