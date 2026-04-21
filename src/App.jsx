@@ -4,10 +4,10 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import About from "./components/About";
+import Classes from "./components/Classes";
 import Loader from "./components/Loader";
 
-// Lazy load larger components
-const Classes = lazy(() => import("./components/Classes"));
+// Lazy load larger components that are not immediately visible
 const Testimonials = lazy(() => import("./components/Testimonials"));
 const FAQ = lazy(() => import("./components/Faq"));
 const Contact = lazy(() => import("./components/Contact"));
@@ -45,9 +45,7 @@ function App() {
                 <main className="pt-20">
                   <Home />
                   <About />
-                  <Suspense fallback={<Loader />}>
-                    <Classes />
-                  </Suspense>
+                  <Classes />
                   <Suspense fallback={<Loader />}>
                     <Testimonials />
                   </Suspense>
