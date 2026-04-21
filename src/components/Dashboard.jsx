@@ -107,12 +107,18 @@ export default function Dashboard() {
   const fetchReviews = async () => {
     try {
       const response = await fetch("https://learnserver-backend.onrender.com/api/reviews/admin/all");
+      if (!response.ok) {
+        console.log("Reviews endpoint not available on production");
+        setReviews([]);
+        return;
+      }
       const data = await response.json();
       if (data.success) {
         setReviews(data.data);
       }
     } catch (error) {
       console.error("Error fetching reviews:", error);
+      setReviews([]);
     }
   };
 
