@@ -58,9 +58,16 @@ export default function Dashboard() {
   const [popup, setPopup] = useState({ show: false, message: '', type: 'success' });
 
   useEffect(() => {
-    fetchUsers();
-    fetchClasses();
-    fetchReviews();
+    const loadData = async () => {
+      setLoading(true);
+      await Promise.all([
+        fetchUsers(),
+        fetchClasses(),
+        fetchReviews()
+      ]);
+      setLoading(false);
+    };
+    loadData();
   }, []);
 
   const resetClassForm = () => {
@@ -99,8 +106,6 @@ export default function Dashboard() {
       }
     } catch (error) {
       console.error("Error fetching classes:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
