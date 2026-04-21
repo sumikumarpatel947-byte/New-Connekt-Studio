@@ -110,7 +110,7 @@ export default function Classes() {
                 key={item._id}
                 className="surface-card-soft group transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_54px_rgba(15,23,42,0.08)]"
               >
-                <img src={item.image} alt={item.title} className="h-64 w-full rounded-t-[1.5rem] object-cover md:h-72 lg:h-64" />
+                <img src={item.image} alt={item.title} loading="lazy" className="h-64 w-full rounded-t-[1.5rem] object-cover md:h-72 lg:h-64" />
 
                 <div className="px-6 py-6">
                   <div className="flex items-start justify-between gap-4">

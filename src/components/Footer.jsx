@@ -1,13 +1,14 @@
 import { Heart, Image, MapPin, ShoppingBag } from "lucide-react";
+import { memo } from "react";
 
-export default function Footer() {
+const Footer = memo(function Footer() {
   return (
     <footer className="bg-[#0f172a] py-16 px-4 text-slate-300 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
-              <img src="/Images/logo.png" alt="Connekt Studio logo" className="h-12 w-auto object-contain sm:h-14 md:h-16" />
+              <img src="/Images/logo.png" alt="Connekt Studio logo" loading="lazy" className="h-12 w-auto object-contain sm:h-14 md:h-16" />
               <div>
                 <p className="text-3xl font-semibold text-white">Connekt Studio</p>
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">Yoga and wellness</p>
@@ -87,4 +88,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+});
+
+export default Footer;

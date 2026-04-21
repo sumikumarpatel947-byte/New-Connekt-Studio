@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, LogOut, Menu, User, X } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
 const navItems = ["home", "about", "classes", "testimonials", "faq", "contact"];
 
-export default function Navbar() {
+const Navbar = memo(function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -40,31 +40,25 @@ export default function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 py-3 sm:px-6">
       <div
-        className={`mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-3 transition-all duration-300 sm:px-6 ${
+        className={`mx-auto flex max-w-6xl items-center justify-between rounded-full px-6 py-3 transition-all duration-300 ${
           isScrolled ? "nav-shell" : "bg-transparent"
         }`}
       >
-        <Link to="/" className="flex items-center">
-          <img
-            src="/Images/logo.png"
-            alt="Connekt Studio logo"
-            className="h-12 w-auto object-contain sm:h-14"
-          />
-        </Link>
+        <div className="flex items-center flex-1"></div>
 
-        <nav className="hidden items-center gap-6 lg:flex">
+        <nav className="flex items-center gap-8 lg:flex">
           {navItems.map((item) => (
             <button
               key={item}
               onClick={() => scrollToSection(item)}
-              className="text-sm font-medium capitalize text-gray-700 transition hover:text-teal-700"
+              className="text-base font-semibold capitalize text-gray-700 transition hover:text-teal-700 hover:scale-105"
             >
               {item}
             </button>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="flex items-center flex-1 justify-end">
           {isAuthenticated ? (
             <div className="relative" ref={profileRef}>
               <button
@@ -188,4 +182,6 @@ export default function Navbar() {
       )}
     </header>
   );
-}
+});
+
+export default Navbar;
