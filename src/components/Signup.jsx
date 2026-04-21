@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Eye, EyeOff, MapPin, Phone, Sparkles, UserRound, Mail, CheckCircle, Users, Calendar, ShieldCheck, Star } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, MapPin, Phone, Sparkles, UserRound, Mail, CheckCircle, Users, Calendar, ShieldCheck, Star, Check, X } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
 export default function Signup() {
@@ -14,6 +14,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [popup, setPopup] = useState({ show: false, message: '', type: 'success' });
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -48,6 +49,11 @@ export default function Signup() {
     setError("");
   };
 
+  const showPopup = (message, type = 'success') => {
+    setPopup({ show: true, message, type });
+    setTimeout(() => setPopup({ show: false, message: '', type: 'success' }), 3000);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -76,8 +82,8 @@ export default function Signup() {
 
       if (data.success) {
         login(data.data.user, data.data.token);
-        alert("Signup Successful!");
-        navigate("/");
+        showPopup("Signup Successful!");
+        setTimeout(() => navigate("/"), 1000);
       } else {
         setError(data.message || "Signup failed");
       }
@@ -377,6 +383,17 @@ export default function Signup() {
           </div>
         </div>
       </div>
+
+      {popup.show && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className={`flex items-center gap-3 rounded-full px-6 py-3 shadow-2xl ${popup.type === 'success' ? 'bg-teal-600' : 'bg-red-600'}`}>
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
+              {popup.type === 'success' ? <Check size={18} className="text-white" /> : <X size={18} className="text-white" />}
+            </div>
+            <span className="text-sm font-semibold text-white">{popup.message}</span>
+          </div>
+        </div>
+      )}
 
       {/* Add CSS for floating animation */}
       <style jsx>{`

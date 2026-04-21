@@ -55,6 +55,7 @@ export default function Dashboard() {
   const [showClassForm, setShowClassForm] = useState(false);
   const [editingClass, setEditingClass] = useState(null);
   const [classForm, setClassForm] = useState(createEmptyClassForm);
+  const [popup, setPopup] = useState({ show: false, message: '', type: 'success' });
 
   useEffect(() => {
     fetchUsers();
@@ -66,6 +67,11 @@ export default function Dashboard() {
     setEditingClass(null);
     setClassForm(createEmptyClassForm());
     setShowClassForm(false);
+  };
+
+  const showPopup = (message, type = 'success') => {
+    setPopup({ show: true, message, type });
+    setTimeout(() => setPopup({ show: false, message: '', type: 'success' }), 3000);
   };
 
   const fetchUsers = async () => {
@@ -132,15 +138,15 @@ export default function Dashboard() {
       const data = await response.json();
 
       if (data.success) {
-        alert(editingClass ? "Class updated successfully!" : "Class added successfully!");
+        showPopup(editingClass ? "Class updated successfully!" : "Class added successfully!");
         resetClassForm();
         fetchClasses();
       } else {
-        alert(data.message || "Unable to save class");
+        showPopup(data.message || "Unable to save class", "error");
       }
     } catch (error) {
       console.error("Class save error:", error);
-      alert("Failed to save class");
+      showPopup("Failed to save class", "error");
     }
   };
 
@@ -177,14 +183,14 @@ export default function Dashboard() {
       const data = await response.json();
 
       if (data.success) {
-        alert("Class deleted successfully!");
+        showPopup("Class deleted successfully!");
         fetchClasses();
       } else {
-        alert(data.message || "Failed to delete class");
+        showPopup(data.message || "Failed to delete class", "error");
       }
     } catch (error) {
       console.error("Delete error:", error);
-      alert("Failed to delete class");
+      showPopup("Failed to delete class", "error");
     }
   };
 
@@ -210,14 +216,14 @@ export default function Dashboard() {
       });
       const data = await response.json();
       if (data.success) {
-        alert("Review approved successfully!");
+        showPopup("Review approved successfully!");
         fetchReviews();
       } else {
-        alert(data.message || "Failed to approve review");
+        showPopup(data.message || "Failed to approve review", "error");
       }
     } catch (error) {
       console.error("Approve review error:", error);
-      alert("Failed to approve review");
+      showPopup("Failed to approve review", "error");
     }
   };
 
@@ -231,14 +237,14 @@ export default function Dashboard() {
       });
       const data = await response.json();
       if (data.success) {
-        alert("Review deleted successfully!");
+        showPopup("Review deleted successfully!");
         fetchReviews();
       } else {
-        alert(data.message || "Failed to delete review");
+        showPopup(data.message || "Failed to delete review", "error");
       }
     } catch (error) {
       console.error("Delete review error:", error);
-      alert("Failed to delete review");
+      showPopup("Failed to delete review", "error");
     }
   };
 
@@ -745,6 +751,17 @@ export default function Dashboard() {
           </div>
         </MotionSection>
       </div>
+
+      {popup.show && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className={`flex items-center gap-3 rounded-full px-6 py-3 shadow-2xl ${popup.type === 'success' ? 'bg-teal-600' : 'bg-red-600'}`}>
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
+              {popup.type === 'success' ? <Check size={18} className="text-white" /> : <X size={18} className="text-white" />}
+            </div>
+            <span className="text-sm font-semibold text-white">{popup.message}</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

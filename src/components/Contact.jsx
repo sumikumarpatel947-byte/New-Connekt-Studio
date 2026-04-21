@@ -1,6 +1,6 @@
 import emailjs from "emailjs-com";
 import { useState, useEffect } from "react";
-import { Check, Mail, MapPin, MessageCircle, Phone, UserRound } from "lucide-react";
+import { Check, Mail, MapPin, MessageCircle, Phone, UserRound, X } from "lucide-react";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -10,6 +10,7 @@ export default function Contact() {
     message: "",
   });
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const handleChange = (event) => {
     setForm((current) => ({ ...current, [event.target.id]: event.target.value }));
@@ -36,7 +37,8 @@ export default function Contact() {
     })
     .catch((error) => {
       console.error(error);
-      alert("Failed to send message");
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
     });
 };
 
@@ -181,6 +183,17 @@ export default function Contact() {
               <Check size={18} className="text-white" />
             </div>
             <span className="text-sm font-semibold text-white">Message sent successfully!</span>
+          </div>
+        </div>
+      )}
+
+      {showError && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="flex items-center gap-3 rounded-full bg-red-600 px-6 py-3 shadow-2xl">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
+              <X size={18} className="text-white" />
+            </div>
+            <span className="text-sm font-semibold text-white">Failed to send message</span>
           </div>
         </div>
       )}
