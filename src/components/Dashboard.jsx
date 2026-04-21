@@ -106,7 +106,7 @@ export default function Dashboard() {
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/reviews/admin/all");
+      const response = await fetch("https://learnserver-backend.onrender.com/api/reviews/admin/all");
       const data = await response.json();
       if (data.success) {
         setReviews(data.data);
@@ -211,7 +211,7 @@ export default function Dashboard() {
 
   const handleApproveReview = async (reviewId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/reviews/admin/approve/${reviewId}`, {
+      const response = await fetch(`https://learnserver-backend.onrender.com/api/reviews/admin/approve/${reviewId}`, {
         method: "PATCH",
       });
       const data = await response.json();
@@ -232,7 +232,7 @@ export default function Dashboard() {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:5000/api/reviews/admin/${reviewId}`, {
+      const response = await fetch(`https://learnserver-backend.onrender.com/api/reviews/admin/${reviewId}`, {
         method: "DELETE",
       });
       const data = await response.json();
