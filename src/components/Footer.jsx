@@ -8,7 +8,6 @@ const Footer = memo(function Footer() {
         {/* Header section - centered */}
         <div className="flex flex-col items-center justify-center mb-12 text-center">
           <img src="/Images/logo.png" alt="Connekt Studio logo" loading="lazy" className="h-16 w-auto object-contain mb-4" />
-          <h2 className="text-2xl font-semibold text-white">Connekt Studio</h2>
           <p className="text-sm text-slate-400 mt-2">Yoga and Wellness</p>
           <p className="mt-4 max-w-md text-sm leading-7 text-slate-400">
             A premium online yoga and fitness experience designed to help members practice with calm, strength, and continuity.
