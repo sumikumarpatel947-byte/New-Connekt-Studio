@@ -1,11 +1,5 @@
 import { ArrowRight, PlayCircle } from "lucide-react";
 
-const highlights = [
-  "80k+ guided practice journeys",
-  "Live yoga, meditation, and fitness classes",
-  "Beginner-friendly rhythm from home",
-];
-
 export default function Home() {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -51,12 +45,6 @@ export default function Home() {
               Start your journey
               <PlayCircle size={18} />
             </button>
-          </div>
-
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-medium text-white/90">
-            {highlights.map((item) => (
-              <span key={item}>{item}</span>
-            ))}
           </div>
         </div>
       </div>

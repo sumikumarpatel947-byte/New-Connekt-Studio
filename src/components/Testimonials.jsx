@@ -98,7 +98,7 @@ export default function Testimonials() {
           <span className="section-kicker">Testimonials</span>
           <h2 className="section-heading mt-6 text-balance">A softer, steadier experience members want to stay with.</h2>
           <p className="section-copy mt-5">
-            Clean testimonial cards, generous spacing, and a calm editorial feel inspired by the reference aesthetic.
+            Real stories from real members who have transformed their lives through yoga, meditation, and mindful living.
           </p>
         </div>
 

@@ -40,13 +40,19 @@ const Navbar = memo(function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 py-3 sm:px-6">
       <div
-        className={`mx-auto flex max-w-6xl items-center justify-between rounded-full px-6 py-3 transition-all duration-300 ${
+        className={`mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-3 transition-all duration-300 sm:px-6 ${
           isScrolled ? "nav-shell" : "bg-transparent"
         }`}
       >
-        <div className="flex items-center flex-1"></div>
+        <Link to="/" className="flex items-center">
+          <img
+            src="/Images/logo.png"
+            alt="Connekt Studio logo"
+            className="h-12 w-auto object-contain sm:h-14"
+          />
+        </Link>
 
-        <nav className="flex items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-8 lg:flex">
           {navItems.map((item) => (
             <button
               key={item}
@@ -58,7 +64,7 @@ const Navbar = memo(function Navbar() {
           ))}
         </nav>
 
-        <div className="flex items-center flex-1 justify-end">
+        <div className="hidden items-center gap-3 lg:flex">
           {isAuthenticated ? (
             <div className="relative" ref={profileRef}>
               <button
@@ -70,7 +76,6 @@ const Navbar = memo(function Navbar() {
                 </span>
                 <span className="text-left">
                   <span className="block text-sm font-medium text-gray-900">{user?.name || "User"}</span>
-                  <span className="block text-xs text-gray-500">{user?.role || "member"}</span>
                 </span>
                 <ChevronDown size={16} className={`text-gray-500 transition-transform ${isProfileOpen ? "rotate-180" : ""}`} />
               </button>

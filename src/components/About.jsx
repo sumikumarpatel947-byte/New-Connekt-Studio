@@ -4,17 +4,8 @@ export default function About() {
   return (
     <section id="about" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
-          <div className="surface-card-soft p-4 sm:p-5">
-            <img
-              src="/Images/aboutus.jpeg"
-              alt="Yoga meditation"
-              className="h-[350px] w-full rounded-[1.25rem] object-cover object-center sm:h-[380px] md:h-[420px] lg:h-[450px]"
-              style={{ objectPosition: '60% 70%' }}
-            />
-          </div>
-
-          <div>
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.8fr] lg:items-center">
+          <div className="order-2 lg:order-1">
             <span className="section-kicker">About us</span>
             <h2 className="section-heading mt-6 text-balance">
               Built On Real Transformation And Shared Purpose.
@@ -22,12 +13,12 @@ export default function About() {
             <p className="section-copy mt-6 max-w-2xl">
             Two sisters, one shared purpose. 
 
-Rishikesh became the turning point in Harshita’s life—what began as a journey to heal from grief and depression transformed into a path of deep self-discovery through yoga. She found not just balance, but a sense of inner bliss she chose to live by every day.
+Rishikesh became the turning point in Harshita's life—what began as a journey to heal from grief and depression transformed into a path of deep self-discovery through yoga. She found not just balance, but a sense of inner bliss she chose to live by every day.
 
 Witnessing this powerful shift, her younger sister 
 Hina made a bold choice—to step away from the corporate world and follow a path that felt more aligned. What started as a personal fitness goal soon evolved into a deeper commitment to holistic health.
 
-Today, together, they blend yoga, fitness, and nutrition to guide others toward strength, balance, and self-healing—because they’ve lived the transformation themselves.
+Today, together, they blend yoga, fitness, and nutrition to guide others toward strength, balance, and self-healing—because they've lived the transformation themselves.
 
             </p>
 
@@ -74,6 +65,15 @@ Today, together, they blend yoga, fitness, and nutrition to guide others toward 
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="order-1 lg:order-2 surface-card-soft p-4 sm:p-5 lg:ml-19">
+            <img
+              src="/Images/aboutus.jpeg"
+              alt="Yoga meditation"
+              className="h-[350px] w-full rounded-[1.25rem] object-cover object-center sm:h-[380px] md:h-[420px] lg:h-[750px]"
+              style={{ objectPosition: '60% 70%' }}
+            />
           </div>
         </div>
       </div>

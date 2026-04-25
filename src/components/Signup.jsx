@@ -368,18 +368,6 @@ export default function Signup() {
                 </div>
               ))}
             </div>
-
-            <div className="mt-12 rounded-2xl border border-white/20 bg-gradient-to-r from-teal-800/30 to-emerald-800/30 p-6 backdrop-blur-sm">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10">
-                  <Sparkles size={24} className="text-teal-300" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold">Join 10,000+ Members</h3>
-                  <p className="mt-1 text-white/70">Start your wellness journey with our supportive community today.</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -12,11 +12,11 @@ const faqs = [
   },
   {
     question: "What types of classes do you offer?",
-    answer: "We offer beginner yoga, power yoga, meditation, and fitness training designed for different goals and experience levels.",
+    answer: "We offer beginner yoga, meditation, fitness training, personalised diet plans and preconception , prenatal and postpartum care designed for different goals and experience levels.",
   },
   {
     question: "What are your pricing options?",
-    answer: "Monthly plans start at Rs 1,499, 3-month plans at Rs 3,999, and yearly plans at Rs 12,999.",
+    answer: "Check our classes section for detailed pricing information on different plans and packages.",
   },
   {
     question: "What if I miss a live class?",
@@ -38,7 +38,7 @@ export default function FAQ() {
           <span className="section-kicker">FAQ</span>
           <h2 className="section-heading mt-6 text-balance">Answers delivered with the same clarity as the design.</h2>
           <p className="section-copy mt-5">
-            A clean accordion pattern with smooth expansion and enough space to breathe.
+            Find answers to common questions about our classes, membership plans, and how to get started with your wellness journey.
           </p>
         </div>
 

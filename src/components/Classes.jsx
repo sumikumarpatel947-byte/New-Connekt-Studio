@@ -56,15 +56,40 @@ export default function Classes() {
   }, [selectedClass]);
 
   const enrollInClass = (classItem) => {
-    const message =
-      `Hi! I want to enroll in "${classItem.title}".` +
-      ` Level: ${classItem.level}.` +
-      ` Price: ${classItem.price}.` +
-      ` Duration: ${classItem.duration}.` +
-      ` Please share the next steps.`;
+    // Generate professional, personalized message based on class type
+    const getPersonalizedMessage = (classItem) => {
+      const classTitle = classItem.title.toLowerCase();
+      
+      let greeting = "Namaste!";
+      let opening = "I'm excited to begin my wellness journey";
+      let closing = "Could you please guide me through the enrollment process and share the next steps?";
+      
+      if (classTitle.includes('yoga') || classTitle.includes('meditation')) {
+        opening = "I'm interested in deepening my yoga and meditation practice";
+        closing = "I would love to know more about the class schedule and how I can prepare for my first session.";
+      } else if (classTitle.includes('fitness') || classTitle.includes('training')) {
+        opening = "I'm looking to improve my fitness and strength";
+        closing = "Please share details about the program and any prerequisites I should be aware of.";
+      } else if (classTitle.includes('diet') || classTitle.includes('nutrition')) {
+        opening = "I'm seeking guidance on personalized nutrition and diet planning";
+        closing = "I'd appreciate information about the consultation process and how to get started.";
+      } else if (classTitle.includes('prenatal') || classTitle.includes('postpartum') || classTitle.includes('preconception')) {
+        opening = "I'm looking for specialized care during this important phase of my life";
+        closing = "Could you please share more details about the program and how it can support my journey?";
+      }
+      
+      return `${greeting}\n\n${opening} with your "${classItem.title}" program.\n\nHere are my preferences:\n• Level: ${classItem.level}\n• Investment: ${classItem.price}\n• Duration: ${classItem.duration}\n\n${closing}\n\nLooking forward to hearing from you.\n\nThank you,\n[Your Name]`;
+    };
+
+    const message = getPersonalizedMessage(classItem);
 
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    
+    // Set reminder flag for review popup
+    localStorage.setItem("showReviewReminder", "true");
+    // Trigger event to show popup
+    window.dispatchEvent(new Event('enrollment-triggered'));
   };
 
   const showClassDetails = (classItem) => {
@@ -78,8 +103,7 @@ export default function Classes() {
           <span className="section-kicker">Daily classes</span>
           <h2 className="section-heading mt-6 text-balance">A refined class lineup for every stage of practice.</h2>
           <p className="section-copy mt-5">
-            The data and functionality stay the same. The experience is simply rebuilt to feel more spacious,
-            calm, and premium.
+            Each class is thoughtfully designed to guide you through mindful movement, breath work, and meditation practices that nurture your body and soul.
           </p>
         </div>
 
@@ -130,19 +154,19 @@ export default function Classes() {
 
                   <p className="mt-4 text-sm leading-7 text-gray-600">{item.description}</p>
 
-                  <div className="mt-5 space-y-2 text-sm text-gray-600">
-                    <p className="inline-flex items-center gap-2">
-                      <UserRound size={15} className="text-teal-700" />
-                      {item.instructor}
-                    </p>
-                    <p className="inline-flex items-center gap-2">
-                      <Clock3 size={15} className="text-teal-700" />
-                      {item.time}
-                    </p>
-                    <p className="inline-flex items-center gap-2">
-                      <Calendar size={15} className="text-teal-700" />
-                      {item.schedule}
-                    </p>
+                  <div className="mt-5 grid grid-cols-3 gap-3 text-sm text-gray-600">
+                    <div className="flex flex-col items-center gap-1 rounded-lg bg-slate-50 px-3 py-3 text-center">
+                      <UserRound size={16} className="text-teal-700" />
+                      <span className="text-xs font-medium text-gray-700">{item.instructor}</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1 rounded-lg bg-slate-50 px-3 py-3 text-center">
+                      <Clock3 size={16} className="text-teal-700" />
+                      <span className="text-xs font-medium text-gray-700">{item.time}</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1 rounded-lg bg-slate-50 px-3 py-3 text-center">
+                      <Calendar size={16} className="text-teal-700" />
+                      <span className="text-xs font-medium text-gray-700">{item.schedule}</span>
+                    </div>
                   </div>
 
                   <div className="mt-5 border-t border-slate-200 pt-5">
