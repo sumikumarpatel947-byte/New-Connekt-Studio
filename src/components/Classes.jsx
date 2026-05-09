@@ -9,6 +9,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
+import PaymentModal from "./PaymentModal";
 
 const WHATSAPP_NUMBER = "919039570885";
 
@@ -17,6 +18,9 @@ export default function Classes() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedClass, setSelectedClass] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedClassForPayment, setSelectedClassForPayment] = useState(null);
+  const [enrolledClassIds, setEnrolledClassIds] = useState([]);
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -41,6 +45,37 @@ export default function Classes() {
   }, []);
 
   useEffect(() => {
+    // Fetch enrolled classes if user is logged in
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      fetchEnrolledClasses(userId);
+      
+      // Check if there's a pending enrollment and open payment modal
+      const pendingEnrollment = localStorage.getItem('pendingEnrollment');
+      if (pendingEnrollment) {
+        const classData = JSON.parse(pendingEnrollment);
+        setSelectedClassForPayment(classData);
+        setShowPaymentModal(true);
+        localStorage.removeItem('pendingEnrollment');
+      }
+    }
+  }, []);
+
+  const fetchEnrolledClasses = async (userId) => {
+    try {
+      const response = await fetch(`https://learnserver-backend.onrender.com/api/enrollments/user-enrollments/${userId}`);
+      const data = await response.json();
+      
+      if (data.success) {
+        const classIds = data.enrollments.map(e => e.classId._id);
+        setEnrolledClassIds(classIds);
+      }
+    } catch (error) {
+      console.error('Error fetching enrolled classes:', error);
+    }
+  };
+
+  useEffect(() => {
     if (!selectedClass) {
       return undefined;
     }
@@ -56,32 +91,55 @@ export default function Classes() {
   }, [selectedClass]);
 
   const enrollInClass = (classItem) => {
+    // Check if user is logged in
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    
+    if (!userId || !token) {
+      // Store class details for redirect after login
+      localStorage.setItem('pendingEnrollment', JSON.stringify(classItem));
+      // Redirect to login page
+      window.location.href = '/login';
+      return;
+    }
+    
+    setSelectedClassForPayment(classItem);
+    setShowPaymentModal(true);
+  };
+
+  const handlePaymentSuccess = (paymentData) => {
+    // Refresh enrolled classes after successful payment
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      fetchEnrolledClasses(userId);
+    }
+
     // Generate professional, personalized message based on class type
     const getPersonalizedMessage = (classItem) => {
       const classTitle = classItem.title.toLowerCase();
       
       let greeting = "Namaste!";
-      let opening = "I'm excited to begin my wellness journey";
-      let closing = "Could you please guide me through the enrollment process and share the next steps?";
+      let opening = "I've completed my payment for";
+      let closing = "Please confirm my enrollment and share the class schedule.";
       
       if (classTitle.includes('yoga') || classTitle.includes('meditation')) {
-        opening = "I'm interested in deepening my yoga and meditation practice";
+        opening = "I've completed my payment for deepening my yoga and meditation practice";
         closing = "I would love to know more about the class schedule and how I can prepare for my first session.";
       } else if (classTitle.includes('fitness') || classTitle.includes('training')) {
-        opening = "I'm looking to improve my fitness and strength";
+        opening = "I've completed my payment for improving my fitness and strength";
         closing = "Please share details about the program and any prerequisites I should be aware of.";
       } else if (classTitle.includes('diet') || classTitle.includes('nutrition')) {
-        opening = "I'm seeking guidance on personalized nutrition and diet planning";
+        opening = "I've completed my payment for personalized nutrition and diet planning";
         closing = "I'd appreciate information about the consultation process and how to get started.";
       } else if (classTitle.includes('prenatal') || classTitle.includes('postpartum') || classTitle.includes('preconception')) {
-        opening = "I'm looking for specialized care during this important phase of my life";
+        opening = "I've completed my payment for specialized care during this important phase of my life";
         closing = "Could you please share more details about the program and how it can support my journey?";
       }
       
-      return `${greeting}\n\n${opening} with your "${classItem.title}" program.\n\nHere are my preferences:\n• Level: ${classItem.level}\n• Investment: ${classItem.price}\n• Duration: ${classItem.duration}\n\n${closing}\n\nLooking forward to hearing from you.\n\nThank you,\n[Your Name]`;
+      return `${greeting}\n\n${opening} with your "${classItem.title}" program.\n\nHere are my details:\n• Name: ${paymentData.name}\n• Email: ${paymentData.email}\n• Phone: ${paymentData.phone}\n• Payment ID: ${paymentData.paymentId || 'Processing'}\n• Investment: ${classItem.price}\n• Duration: ${classItem.duration}\n\n${closing}\n\nLooking forward to hearing from you.\n\nThank you,\n${paymentData.name}`;
     };
 
-    const message = getPersonalizedMessage(classItem);
+    const message = getPersonalizedMessage(selectedClassForPayment);
 
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
@@ -178,10 +236,17 @@ export default function Classes() {
                   </div>
 
                   <div className="mt-6 flex gap-3">
-                    <button onClick={() => enrollInClass(item)} className="primary-btn flex-1 px-4 py-3 text-sm">
-                      <PlusCircle size={16} />
-                      Enroll
-                    </button>
+                    {enrolledClassIds.includes(item._id) ? (
+                      <button disabled className="flex flex-1 items-center justify-center gap-2 rounded-full bg-green-600 px-4 py-3 text-sm font-semibold text-white cursor-not-allowed">
+                        <CheckCircle2 size={16} />
+                        Enrolled
+                      </button>
+                    ) : (
+                      <button onClick={() => enrollInClass(item)} className="primary-btn flex-1 px-4 py-3 text-sm">
+                        <PlusCircle size={16} />
+                        Enroll
+                      </button>
+                    )}
                     <button
                       onClick={() => showClassDetails(item)}
                       className="flex flex-1 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 transition hover:border-teal-200 hover:text-teal-700"
@@ -271,13 +336,23 @@ export default function Classes() {
                   </div>
 
                   <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                    <button
-                      onClick={() => enrollInClass(selectedClass)}
-                      className="primary-btn flex-1 px-5 py-3 text-sm"
-                    >
-                      <PlusCircle size={16} />
-                      Enroll on WhatsApp
-                    </button>
+                    {enrolledClassIds.includes(selectedClass._id) ? (
+                      <button
+                        disabled
+                        className="flex flex-1 items-center justify-center gap-2 rounded-full bg-green-600 px-5 py-3 text-sm font-semibold text-white cursor-not-allowed"
+                      >
+                        <CheckCircle2 size={16} />
+                        Enrolled
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => enrollInClass(selectedClass)}
+                        className="primary-btn flex-1 px-5 py-3 text-sm"
+                      >
+                        <PlusCircle size={16} />
+                        Enroll Now
+                      </button>
+                    )}
                     <button
                       type="button"
                       onClick={() => setSelectedClass(null)}
@@ -292,6 +367,13 @@ export default function Classes() {
           </div>
         </div>
       )}
+
+      <PaymentModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        classData={selectedClassForPayment}
+        onPaymentSuccess={handlePaymentSuccess}
+      />
     </section>
   );
 }

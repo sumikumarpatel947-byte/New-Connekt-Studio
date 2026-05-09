@@ -64,7 +64,16 @@ export default function LoginForm() {
       if (response.ok) {
         login(data.data.user, data.data.token);
         showPopup("Login Successful!");
-        setTimeout(() => navigate(data.data.user.role === "admin" ? "/dashboard" : "/"), 1000);
+        
+        // Check if there's a pending enrollment
+        const pendingEnrollment = localStorage.getItem('pendingEnrollment');
+        if (pendingEnrollment) {
+          // Redirect to home page - Classes component will handle opening payment modal
+          setTimeout(() => navigate('/'), 1000);
+        } else {
+          // Normal redirect
+          setTimeout(() => navigate(data.data.user.role === "admin" ? "/dashboard" : "/"), 1000);
+        }
       } else {
         setError(data.message || "Login failed");
       }

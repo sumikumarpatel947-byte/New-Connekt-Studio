@@ -83,7 +83,16 @@ export default function Signup() {
       if (data.success) {
         login(data.data.user, data.data.token);
         showPopup("Signup Successful!");
-        setTimeout(() => navigate("/"), 1000);
+        
+        // Check if there's a pending enrollment
+        const pendingEnrollment = localStorage.getItem('pendingEnrollment');
+        if (pendingEnrollment) {
+          // Redirect to home page - Classes component will handle opening payment modal
+          setTimeout(() => navigate('/'), 1000);
+        } else {
+          // Normal redirect
+          setTimeout(() => navigate("/"), 1000);
+        }
       } else {
         setError(data.message || "Signup failed");
       }
