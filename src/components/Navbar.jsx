@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, memo } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, LogOut, Menu, User, X } from "lucide-react";
+import { ChevronDown, LogOut, Menu, User, X, BookOpen } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
 const navItems = ["home", "about", "classes", "testimonials", "faq", "contact"];
@@ -9,6 +9,7 @@ const Navbar = memo(function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [enrolledClasses, setEnrolledClasses] = useState([]);
   const profileRef = useRef(null);
   const { user, isAuthenticated, logout } = useAuth();
 
@@ -28,6 +29,25 @@ const Navbar = memo(function Navbar() {
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      fetchEnrolledClasses();
+    }
+  }, [isAuthenticated, user]);
+
+  const fetchEnrolledClasses = async () => {
+    try {
+      const response = await fetch(`https://learnserver-backend.onrender.com/api/enrollments/user-enrollments/${user._id}`);
+      const data = await response.json();
+      
+      if (data.success) {
+        setEnrolledClasses(data.enrollments);
+      }
+    } catch (error) {
+      console.error('Error fetching enrolled classes:', error);
+    }
+  };
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -93,6 +113,23 @@ const Navbar = memo(function Navbar() {
                     <p><span className="font-semibold text-gray-900">Address:</span> {user?.address || "-"}</p>
                     <p><span className="font-semibold text-gray-900">Role:</span> {user?.role || "member"}</p>
                   </div>
+
+                  {enrolledClasses.length > 0 && (
+                    <div className="border-t border-slate-100 pt-4">
+                      <p className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-teal-700">
+                        <BookOpen size={14} />
+                        Enrolled Classes
+                      </p>
+                      <div className="max-h-40 space-y-2 overflow-y-auto">
+                        {enrolledClasses.map((enrollment) => (
+                          <div key={enrollment._id} className="rounded-lg bg-slate-50 px-3 py-2">
+                            <p className="text-sm font-medium text-gray-900">{enrollment.classId?.title || 'Class'}</p>
+                            <p className="text-xs text-gray-500">{enrollment.classId?.price || '-'}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="space-y-3">
                     {user?.role === "admin" && (

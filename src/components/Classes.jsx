@@ -93,6 +93,12 @@ export default function Classes() {
       return;
     }
     
+    // Check if user is already enrolled in this class
+    if (enrolledClassIds.includes(classItem._id)) {
+      alert('You are already enrolled in this class.');
+      return;
+    }
+    
     setSelectedClassForPayment(classItem);
     setShowPaymentModal(true);
   };
@@ -102,7 +108,10 @@ export default function Classes() {
     const user = localStorage.getItem('user');
     if (user) {
       const userData = JSON.parse(user);
-      fetchEnrolledClasses(userData._id);
+      // Add a small delay to ensure enrollment is saved to database
+      setTimeout(() => {
+        fetchEnrolledClasses(userData._id);
+      }, 1000);
     }
 
     // Generate professional, personalized message based on class type
@@ -110,24 +119,24 @@ export default function Classes() {
       const classTitle = classItem.title.toLowerCase();
       
       let greeting = "Namaste!";
-      let opening = "I've completed my payment for";
-      let closing = "Please confirm my enrollment and share the class schedule.";
+      let opening = "New enrollment received for";
+      let closing = "Please confirm the enrollment and share the class schedule with the student.";
       
       if (classTitle.includes('yoga') || classTitle.includes('meditation')) {
-        opening = "I've completed my payment for deepening my yoga and meditation practice";
-        closing = "I would love to know more about the class schedule and how I can prepare for my first session.";
+        opening = "New enrollment received for deepening yoga and meditation practice";
+        closing = "The student is excited to begin their journey. Please share the class schedule.";
       } else if (classTitle.includes('fitness') || classTitle.includes('training')) {
-        opening = "I've completed my payment for improving my fitness and strength";
-        closing = "Please share details about the program and any prerequisites I should be aware of.";
+        opening = "New enrollment received for improving fitness and strength";
+        closing = "Please share program details and prerequisites with the student.";
       } else if (classTitle.includes('diet') || classTitle.includes('nutrition')) {
-        opening = "I've completed my payment for personalized nutrition and diet planning";
-        closing = "I'd appreciate information about the consultation process and how to get started.";
+        opening = "New enrollment received for personalized nutrition and diet planning";
+        closing = "The student is ready to begin. Please share consultation process details.";
       } else if (classTitle.includes('prenatal') || classTitle.includes('postpartum') || classTitle.includes('preconception')) {
-        opening = "I've completed my payment for specialized care during this important phase of my life";
-        closing = "Could you please share more details about the program and how it can support my journey?";
+        opening = "New enrollment received for specialized care during important phase";
+        closing = "Please share program details and support information with the student.";
       }
       
-      return `${greeting}\n\n${opening} with your "${classItem.title}" program.\n\nHere are my details:\n• Name: ${paymentData.name}\n• Email: ${paymentData.email}\n• Phone: ${paymentData.phone}\n• Payment ID: ${paymentData.paymentId || 'Processing'}\n• Investment: ${classItem.price}\n• Duration: ${classItem.duration}\n\n${closing}\n\nLooking forward to hearing from you.\n\nThank you,\n${paymentData.name}`;
+      return `${greeting}\n\n${opening} with your "${classItem.title}" program.\n\nStudent Details:\n• Name: ${paymentData.name}\n• Email: ${paymentData.email}\n• Phone: ${paymentData.phone}\n• Payment ID: ${paymentData.paymentId || 'Processing'}\n• Investment: ${classItem.price}\n• Duration: ${classItem.duration}\n\n${closing}\n\nThank you,\nConnekt Studio`;
     };
 
     const message = getPersonalizedMessage(selectedClassForPayment);
