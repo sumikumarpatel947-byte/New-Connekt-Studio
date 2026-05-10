@@ -37,10 +37,6 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
         ? parseInt(classData.price.replace(/[^0-9]/g, '')) 
         : classData.price;
       
-      console.log('Class price:', classData.price);
-      console.log('Extracted price value:', priceValue);
-      console.log('Creating order with amount:', priceValue * 100);
-      
       if (!priceValue || isNaN(priceValue)) {
         throw new Error('Invalid price value');
       }
@@ -51,22 +47,18 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
         body: JSON.stringify({ amount: priceValue * 100 }) // Razorpay uses paise
       });
       
-      console.log('Response status:', response.status);
       const order = await response.json();
-      console.log('Order created:', order);
       setOrderId(order.id);
       return order;
     } catch (error) {
       console.error('Error creating order:', error);
-      alert('Failed to create payment order. Please check if the server is running on localhost:5000');
+      alert('Failed to create payment order. Please try again later.');
       throw error;
     }
   };
 
   const openRazorpay = (order) => {
     return new Promise((resolve, reject) => {
-      console.log('Opening Razorpay with order:', order);
-      
       if (!window.Razorpay) {
         reject(new Error('Razorpay script not loaded'));
         return;
@@ -114,14 +106,11 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
     setLoading(true);
 
     try {
-      console.log('Starting payment process...');
       // Create order on backend
       const order = await createOrder();
-      console.log('Order created successfully:', order.id);
       
       // Open Razorpay payment
       const paymentResponse = await openRazorpay(order);
-      console.log('Payment completed, verifying...');
       
       // Verify payment on backend
       const verifyResponse = await fetch('https://learnserver-backend.onrender.com/api/payment/verify-payment', {
@@ -135,7 +124,6 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
       });
       
       const verifyData = await verifyResponse.json();
-      console.log('Verification result:', verifyData);
       
       if (verifyData.success) {
         // Save enrollment to database

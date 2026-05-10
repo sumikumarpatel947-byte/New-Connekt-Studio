@@ -96,12 +96,7 @@ export default function Classes() {
     const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
     
-    console.log('Enroll button clicked');
-    console.log('user from localStorage:', user);
-    console.log('token from localStorage:', token);
-    
     if (!user || !token) {
-      console.log('User not logged in, redirecting to login');
       // Store class details for redirect after login
       localStorage.setItem('pendingEnrollment', JSON.stringify(classItem));
       // Redirect to login page
@@ -109,7 +104,6 @@ export default function Classes() {
       return;
     }
     
-    console.log('User is logged in, opening payment modal');
     setSelectedClassForPayment(classItem);
     setShowPaymentModal(true);
   };
