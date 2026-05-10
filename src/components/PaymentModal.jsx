@@ -140,11 +140,14 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
       if (verifyData.success) {
         // Save enrollment to database
         try {
+          const user = localStorage.getItem('user');
+          const userData = user ? JSON.parse(user) : null;
+          
           await fetch('https://learnserver-backend.onrender.com/api/enrollments/save-enrollment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              userId: localStorage.getItem('userId') || null, // Get from localStorage if user is logged in
+              userId: userData?._id || null, // Get userId from user object
               classId: classData._id,
               paymentId: paymentResponse.razorpay_payment_id,
               orderId: paymentResponse.razorpay_order_id,

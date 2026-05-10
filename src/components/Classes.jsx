@@ -46,9 +46,10 @@ export default function Classes() {
 
   useEffect(() => {
     // Fetch enrolled classes if user is logged in
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      fetchEnrolledClasses(userId);
+    const user = localStorage.getItem('user');
+    if (user) {
+      const userData = JSON.parse(user);
+      fetchEnrolledClasses(userData._id);
       
       // Check if there's a pending enrollment and open payment modal
       const pendingEnrollment = localStorage.getItem('pendingEnrollment');
@@ -92,14 +93,14 @@ export default function Classes() {
 
   const enrollInClass = (classItem) => {
     // Check if user is logged in
-    const userId = localStorage.getItem('userId');
+    const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
     
     console.log('Enroll button clicked');
-    console.log('userId from localStorage:', userId);
+    console.log('user from localStorage:', user);
     console.log('token from localStorage:', token);
     
-    if (!userId || !token) {
+    if (!user || !token) {
       console.log('User not logged in, redirecting to login');
       // Store class details for redirect after login
       localStorage.setItem('pendingEnrollment', JSON.stringify(classItem));
@@ -115,9 +116,10 @@ export default function Classes() {
 
   const handlePaymentSuccess = (paymentData) => {
     // Refresh enrolled classes after successful payment
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      fetchEnrolledClasses(userId);
+    const user = localStorage.getItem('user');
+    if (user) {
+      const userData = JSON.parse(user);
+      fetchEnrolledClasses(userData._id);
     }
 
     // Generate professional, personalized message based on class type
