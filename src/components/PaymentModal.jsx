@@ -133,7 +133,7 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
           const userData = user ? JSON.parse(user) : null;
           
           console.log('Saving enrollment:', {
-            userId: userData?._id,
+            userId: userData?.id || userData?._id,
             classId: classData._id,
             paymentId: paymentResponse.razorpay_payment_id
           });
@@ -142,7 +142,7 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              userId: userData?._id || null, // Get userId from user object
+              userId: userData?.id || userData?._id,
               classId: classData._id,
               paymentId: paymentResponse.razorpay_payment_id,
               orderId: paymentResponse.razorpay_order_id,

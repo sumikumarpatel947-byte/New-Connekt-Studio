@@ -38,7 +38,7 @@ const Navbar = memo(function Navbar() {
 
   const fetchEnrolledClasses = async () => {
     try {
-      const response = await fetch(`https://learnserver-backend.onrender.com/api/enrollments/user-enrollments/${user._id}`);
+      const response = await fetch(`https://learnserver-backend.onrender.com/api/enrollments/user-enrollments/${user?.id || user?._id}`);
       const data = await response.json();
       
       if (data.success) {

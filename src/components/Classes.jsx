@@ -49,7 +49,7 @@ export default function Classes() {
     const user = localStorage.getItem('user');
     if (user) {
       const userData = JSON.parse(user);
-      fetchEnrolledClasses(userData._id);
+      fetchEnrolledClasses(userData.id || userData._id);
     }
   }, []);
 
@@ -119,12 +119,12 @@ export default function Classes() {
     if (user) {
       const userData = JSON.parse(user);
       console.log('User data:', userData);
-      console.log('Fetching enrolled classes for userId:', userData._id);
+      console.log('Fetching enrolled classes for userId:', userData.id || userData._id);
       
       // Add a small delay to ensure enrollment is saved to database
       setTimeout(() => {
         console.log('Calling fetchEnrolledClasses');
-        fetchEnrolledClasses(userData._id);
+        fetchEnrolledClasses(userData.id || userData._id);
       }, 1000);
     } else {
       console.error('No user found in localStorage');
