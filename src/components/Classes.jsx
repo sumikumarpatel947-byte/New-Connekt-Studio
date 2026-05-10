@@ -50,15 +50,6 @@ export default function Classes() {
     if (user) {
       const userData = JSON.parse(user);
       fetchEnrolledClasses(userData._id);
-      
-      // Check if there's a pending enrollment and open payment modal
-      const pendingEnrollment = localStorage.getItem('pendingEnrollment');
-      if (pendingEnrollment) {
-        const classData = JSON.parse(pendingEnrollment);
-        setSelectedClassForPayment(classData);
-        setShowPaymentModal(true);
-        localStorage.removeItem('pendingEnrollment');
-      }
     }
   }, []);
 
@@ -97,8 +88,6 @@ export default function Classes() {
     const token = localStorage.getItem('token');
     
     if (!user || !token) {
-      // Store class details for redirect after login
-      localStorage.setItem('pendingEnrollment', JSON.stringify(classItem));
       // Redirect to login page
       window.location.href = '/login';
       return;
