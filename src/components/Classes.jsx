@@ -55,12 +55,18 @@ export default function Classes() {
 
   const fetchEnrolledClasses = async (userId) => {
     try {
+      console.log('Fetching enrolled classes for userId:', userId);
       const response = await fetch(`https://learnserver-backend.onrender.com/api/enrollments/user-enrollments/${userId}`);
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Enrolled classes data:', data);
       
       if (data.success) {
         const classIds = data.enrollments.map(e => e.classId._id);
+        console.log('Setting enrolledClassIds:', classIds);
         setEnrolledClassIds(classIds);
+      } else {
+        console.error('Failed to fetch enrolled classes:', data.error);
       }
     } catch (error) {
       console.error('Error fetching enrolled classes:', error);
@@ -104,14 +110,24 @@ export default function Classes() {
   };
 
   const handlePaymentSuccess = (paymentData) => {
+    console.log('handlePaymentSuccess called with:', paymentData);
+    
     // Refresh enrolled classes after successful payment
     const user = localStorage.getItem('user');
+    console.log('User from localStorage:', user);
+    
     if (user) {
       const userData = JSON.parse(user);
+      console.log('User data:', userData);
+      console.log('Fetching enrolled classes for userId:', userData._id);
+      
       // Add a small delay to ensure enrollment is saved to database
       setTimeout(() => {
+        console.log('Calling fetchEnrolledClasses');
         fetchEnrolledClasses(userData._id);
       }, 1000);
+    } else {
+      console.error('No user found in localStorage');
     }
 
     // Generate professional, personalized message based on class type

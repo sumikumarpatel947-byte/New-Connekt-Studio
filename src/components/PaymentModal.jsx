@@ -126,12 +126,19 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
       const verifyData = await verifyResponse.json();
       
       if (verifyData.success) {
+        console.log('Payment verified successfully');
         // Save enrollment to database
         try {
           const user = localStorage.getItem('user');
           const userData = user ? JSON.parse(user) : null;
           
-          await fetch('https://learnserver-backend.onrender.com/api/enrollments/save-enrollment', {
+          console.log('Saving enrollment:', {
+            userId: userData?._id,
+            classId: classData._id,
+            paymentId: paymentResponse.razorpay_payment_id
+          });
+          
+          const enrollmentResponse = await fetch('https://learnserver-backend.onrender.com/api/enrollments/save-enrollment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -142,11 +149,19 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
               amount: classData.price
             })
           });
+          
+          const enrollmentData = await enrollmentResponse.json();
+          console.log('Enrollment save response:', enrollmentData);
+          
+          if (!enrollmentData.success) {
+            console.error('Enrollment save failed:', enrollmentData.error);
+          }
         } catch (error) {
           console.error('Error saving enrollment:', error);
           // Continue even if enrollment save fails - WhatsApp message is already sent
         }
 
+        console.log('Calling onPaymentSuccess callback');
         onPaymentSuccess({
           ...formData,
           classId: classData._id,
@@ -155,6 +170,7 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
           paymentId: paymentResponse.razorpay_payment_id,
           orderId: paymentResponse.razorpay_order_id
         });
+        console.log('Closing payment modal');
         onClose();
       } else {
         alert('Payment verification failed');
