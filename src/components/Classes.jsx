@@ -62,14 +62,51 @@ export default function Classes() {
       console.log('Enrolled classes data:', data);
       
       if (data.success) {
-        const classIds = data.enrollments.map(e => e.classId._id);
-        console.log('Setting enrolledClassIds:', classIds);
-        setEnrolledClassIds(classIds);
-      } else {
-        console.error('Failed to fetch enrolled classes:', data.error);
+        const enrolledIds = data.enrollments.map(e => e.classId._id.toString());
+        setEnrolledClassIds(enrolledIds);
       }
     } catch (error) {
       console.error('Error fetching enrolled classes:', error);
+    }
+  };
+
+  // Test function to save enrollment without payment (call from browser console)
+  window.testEnrollment = async (classId) => {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      console.error('User not logged in');
+      return;
+    }
+    
+    const userData = JSON.parse(user);
+    console.log('Testing enrollment save without payment...');
+    
+    try {
+      const response = await fetch('https://learnserver-backend.onrender.com/api/enrollments/save-enrollment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: userData.id || userData._id,
+          classId: classId,
+          paymentId: `test_${Date.now()}`,
+          orderId: `order_test_${Date.now()}`,
+          amount: 1000,
+          testMode: true
+        })
+      });
+      
+      const data = await response.json();
+      console.log('Test enrollment response:', data);
+      
+      if (data.success) {
+        console.log('✅ Enrollment saved successfully!');
+        // Refresh enrolled classes
+        fetchEnrolledClasses(userData.id || userData._id);
+      } else {
+        console.error('❌ Enrollment save failed:', data.error, data.details);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
