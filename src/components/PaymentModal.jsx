@@ -146,7 +146,7 @@ const PaymentModal = memo(function PaymentModal({ isOpen, onClose, classData, on
               classId: classData._id,
               paymentId: paymentResponse.razorpay_payment_id,
               orderId: paymentResponse.razorpay_order_id,
-              amount: classData.price
+              amount: parseFloat(classData.price.replace(/[^\d.-]/g, '')) || 0
             })
           });
           
