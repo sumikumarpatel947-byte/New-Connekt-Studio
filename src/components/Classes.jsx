@@ -195,7 +195,9 @@ export default function Classes() {
     const message = getPersonalizedMessage(selectedClassForPayment);
 
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    
+    // Redirect to WhatsApp in the same tab
+    window.location.href = whatsappUrl;
     
     // Set reminder flag for review popup
     localStorage.setItem("showReviewReminder", "true");
